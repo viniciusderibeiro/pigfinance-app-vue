@@ -15,7 +15,7 @@ const hideNotification = () => {
 const router = useRouter();
 
 const formData = reactive({
-    //Lembrar de mudar nomes das variaveis quando trocar de API
+
     email_Cliente: '',
     senha: ''
 });
@@ -25,7 +25,6 @@ watch(() => formData.email_Cliente, (novoValor) => {
 });
 
 async function login() {
-    // Verificação de campos vazios
     if (!formData.email_Cliente.trim() || !formData.senha.trim()) {
         console.log("Por favor, preencha todos os campos.");
         notificationMessage.value = "Por favor, preencha todos os campos.";
@@ -33,8 +32,6 @@ async function login() {
         setTimeout(hideNotification, 3000);
         return;
     }
-
-    console.log("Dados enviados:", formData);
 
     try {
         const resposta = await fetch('http://localhost:8080/cliente/login', {
@@ -48,10 +45,8 @@ async function login() {
         if (!resposta.ok) throw new Error('Credenciais inválidas.');
 
         const resultado = await resposta.json();
-        console.log('Login bem-sucedido:', resultado);
 
-        // Redireciona após sucesso
-        router.push('/'); // ajuste essa rota conforme sua aplicação
+        router.push('/dashboard');
 
     } catch (erro) {
         console.error('Erro ao fazer login:', erro);
